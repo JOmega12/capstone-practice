@@ -1,0 +1,31 @@
+py -m venv .venv
+
+.\.venv\Scripts\activate
+
+django-admin startproject server .
+
+## starts the db file
+py manage.py migrate 
+
+To install dependencies to requirements.txt:
+pip freeze > requirements.txt
+
+To install from requirements.txt:
+pip install -r requirements.txt
+
+
+
+Write the first app for users that create a jwt token and login and shows a token
+Write the second app for items that GET the item using the jwt token
+Then expand from here
+
+
+What I am finding: 
+I cannot get the token for users endpoint.
+
+
+curl \
+>>   -X POST \
+>>   -H "Content-Type: application/json" \
+>>   -d '{"username": "test5", "password": "TestPass10"}' \                 
+>>   http://localhost:8000/users/token
