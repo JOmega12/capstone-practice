@@ -1,6 +1,6 @@
 // import React from 'react'
 
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 
 export const AuthContext = createContext();
@@ -35,4 +35,14 @@ export function AuthProvider({children}) {
             {children}
         </AuthContext.Provider>
     )
+}
+
+// eslint-disable-next-line react-refresh/only-export-components
+export const useAuth =() => {
+    const context = useContext(AuthContext);
+    if(!context){
+        throw new Error("Please use useAuth hook")
+    }
+
+    return context;
 }
