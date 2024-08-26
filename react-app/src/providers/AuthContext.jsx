@@ -4,6 +4,10 @@ import { createContext, useContext, useState  } from "react";
 import { jwtDecode } from "jwt-decode";
 
 
+// !TAKE A LOOK AT ACCESS AND REFRESH TOKENS AND ADD THAT TO NEW BUILD 
+// I BUILT THIS TO GET THE CONCEPT ON HOW TOKENS WORK AND HOW TO LOGIN FROM THE BACKEND
+// TODO: NEED TO LEARN HOW TO REGISTER USER AND CREATE NEW ITEMS
+
 export const AuthContext = createContext(undefined);
 
 // eslint-disable-next-line react/prop-types
@@ -23,7 +27,7 @@ export function AuthProvider({children}) {
             },
             body: JSON.stringify({username, password})
         })
-        console.log(response, 'response')
+        // console.log(response, 'response')
         let data = await response.json()
         // console.log('data:', data)
 
@@ -49,8 +53,9 @@ export function AuthProvider({children}) {
     return(
         <AuthContext.Provider value={{
             user,
+            authToken,
             loginUser,
-            logoutUser
+            logoutUser,
         }}>
             {children}
         </AuthContext.Provider>
