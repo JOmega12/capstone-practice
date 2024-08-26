@@ -14,6 +14,6 @@ from .serializers import ItemSerializer
 @permission_classes([IsAuthenticated])
 def getItem(request):
     user = request.user
-    items = user.item_set.all()
+    items = user.items.all()
     serializer = ItemSerializer(items, many=True)
     return Response(serializer.data)
