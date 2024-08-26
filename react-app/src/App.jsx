@@ -4,7 +4,7 @@ import { Header } from "./Header"
 import Homepage from "./pages/Homepage"
 import { LoginPage } from "./pages/LoginPage"
 import {Routes, Route} from 'react-router-dom'
-import { AuthProvider } from "./providers/authContext"
+import { AuthProvider } from "./providers/AuthContext"
 
 
 
