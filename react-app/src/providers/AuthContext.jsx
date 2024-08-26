@@ -9,8 +9,12 @@ export const AuthContext = createContext(undefined);
 // eslint-disable-next-line react/prop-types
 export function AuthProvider({children}) {
     
-    const [authToken, setAuthToken]= useState(null);
-    const [user, setUser] = useState(null);
+    const [authToken, setAuthToken]= useState(()=>localStorage.getItem('authToken') ? JSON.parse(localStorage.getItem('authToken')) : null);
+    const [user, setUser] = useState(() => localStorage.getItem('authToken') ? jwtDecode(localStorage.getItem('authToken')) : null);
+
+
+
+
     const loginUser = async(username,password) => {
         const response = await fetch('http://localhost:8000/users/token/', {
             method: 'POST',
@@ -26,16 +30,27 @@ export function AuthProvider({children}) {
         if(response.status === 200){
             setAuthToken(data)
             setUser(jwtDecode(data.access))
+            localStorage.setItem("authToken", JSON.stringify(data))
         } else {
             alert("Something went wrong in the Context")
         }
     }   
 
+    const logoutUser = () => {
+        console.log('hello')
+        setAuthToken(null)
+        setUser(null)
+        localStorage.removeItem("authToken")
+        // once logged out it goes back to login 
+        // check your coffee code for logout instructions
+    }
+    
 
     return(
         <AuthContext.Provider value={{
             user,
             loginUser,
+            logoutUser
         }}>
             {children}
         </AuthContext.Provider>
