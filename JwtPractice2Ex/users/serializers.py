@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.password_validation import validate_password
-
+from django.contrib.auth.models import User
 # from items.serializers import ItemSerializer
 # from .models import CustomUser
 # from items.models import Item
@@ -20,6 +20,12 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         # ...
 
         return token
+    
+    
+class UserSerializer(serializers.ModelSerializer):
+    class Meta(object):
+        model = User
+        fields=['id', 'username', 'password']
     
 # class RegisterSerializer(serializers.ModelSerializer):
 #     password = serializers.CharField(

@@ -7,8 +7,10 @@ from rest_framework.decorators import api_view
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 
+from users.serializers import UserSerializer
+from django.contrib.auth.models import User
+
 # this encrypts the username
-#customized vversion of this
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
@@ -32,3 +34,11 @@ def getRoutes(request):
     ]
     
     return Response(routes)
+
+
+@api_view(['POST'])
+def signup(request):
+    serializer = UserSerializer(data =request.data)
+    if serializer.is_valid():
+        serializer.save()
+        user = User.objects.get(username = request.data['username'])
