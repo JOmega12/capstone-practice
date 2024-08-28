@@ -24,6 +24,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
         # Add custom claims
         token['username'] = user.username
+        token['password'] = user.password
         # ...
 
         return token
@@ -42,21 +43,24 @@ def getRoutes(request):
     return Response(routes)
 
 
-# TODO: Need to get the jwt token for when the user registers
+
 @api_view(['POST'])
 def signup(request):
     serializer = UserSerializer(data =request.data)
     if serializer.is_valid():
-        serializer.save()
-        user = User.objects.get(username = request.data['username'])
-        user.set_password(request.data(['password']))
+        user = serializer.save()
+        # user = User.objects.get(username = request.data['username'])
+        # user = User(
+        #     username=user_data['username']
+        # )
+        user.set_password(request.data['password'])
         user.is_active = True
         user.save()
         # token = Token.objects.create(user=user)
         
         refresh = RefreshToken.for_user(user)
-        
         refresh['username']= user.username
+        refresh['password']= user.password
         access_token = str(refresh.access_token)
         
         return Response({
