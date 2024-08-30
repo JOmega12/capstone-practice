@@ -20,6 +20,42 @@ def getItem(request):
 
 
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def createItem(request):
+    user = request.user
+    data = request.data
     
+    serializer = ItemSerializer(data = data)
+    if serializer.is_valid():
+        serializer.save(user=user)
+        return Response(serializer.data, status= status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['PATCH'])
+@permission_classes([IsAuthenticated])
+def updateItem(request, pk):
+    try:
+        item = Item.objects.get(pk=pk, user= request.user)
+
+    except Item.DoesNotExist:
+        Response({"error": "Item is not found or no permissions"})
+
+    serializer = ItemSerializer(item, data = request.data, partial = True)
+    if(serializer.is_valid()):
+        serializer.save()
+        return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def deleteItem(request, pk):
+    try:
+        item = Item.objects.get(pk =pk, user = request.user)
+    except Item.DoesNotExist:
+        return Response({"error": "item not found or no permission"}, status = status.HTTP_404_NOT_FOUND)
     
+    item.delete()
+    return Response({"Message": "Item Deleted Successfully :D"}, status = status.HTTP_204_OK)
+    # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

@@ -3,5 +3,7 @@ from . import views
 
 urlpatterns = [
     path('api/', views.getItem , name='notes'),
-    # path('api/<int:pk>/', NotesDetailView.as_view(), name='notes-detail')
+    path('api/create', views.createItem, name='create-item'),
+    path('api/<int:pk>/update', views.updateItem, name='update-item'),
+    path('api/<int:pk>/delete', views.deleteItem, name='delet-item'),
 ]
