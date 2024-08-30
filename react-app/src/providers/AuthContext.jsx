@@ -20,6 +20,8 @@ export function AuthProvider({children}) {
 
 
     const loginUser = async(username,password) => {
+
+        // !abstract this code block -----
         const response = await fetch('http://localhost:8000/users/token/', {
             method: 'POST',
             headers: {
@@ -29,6 +31,9 @@ export function AuthProvider({children}) {
         })
         // console.log(response, 'response')
         let data = await response.json()
+        // *we return await response.json() in the abstracted code
+        // !-------------------------------
+        // *then we make a function refetch.then(setItem)
         // console.log('data:', data)
 
         if(response.status === 200){
@@ -40,6 +45,29 @@ export function AuthProvider({children}) {
         }
     }   
 
+    const registerUser = async(username, password) => {
+        // !abstract this code block -----
+
+        // this is the api code block
+        const response = await fetch("http://localhost:8000/users/register/", {
+            method: 'POST',
+            headers : {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({username, password})
+        })
+        // !-------------------------------
+
+        const data = await response.json();
+        
+        if(response.status === 201){
+            setAuthToken(data)
+            setUser(jwtDecode(data.access))
+            localStorage.setItem("authToken", JSON.stringify(data))
+        } else {
+            alert("Something went wrong in the Context")
+        }
+    }
     const logoutUser = () => {
         console.log('hello')
         setAuthToken(null)
@@ -56,6 +84,8 @@ export function AuthProvider({children}) {
             authToken,
             loginUser,
             logoutUser,
+            registerUser,
+
         }}>
             {children}
         </AuthContext.Provider>

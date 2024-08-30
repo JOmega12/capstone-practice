@@ -1,5 +1,6 @@
 import {useState, useEffect} from 'react'
 import { useAuth } from '../providers/AuthContext';
+import { Register } from './RegisterPage';
 
 export const Homepage = () => {
 
@@ -8,6 +9,7 @@ export const Homepage = () => {
   const [item, setItem] = useState([]);
 
   console.log(authToken, 'auth')
+
   const getItems = async() => {
 
     try {
@@ -32,9 +34,9 @@ export const Homepage = () => {
 
 
   
-  useEffect(() => {
-    getItems()
-  }, [])
+  // useEffect(() => {
+  //   getItems()
+  // }, [])
 
 
   return (
@@ -49,6 +51,12 @@ export const Homepage = () => {
           </>
         ))}
       </ul>
+
+
+      <div>
+        <h2>Register here</h2>
+        <Register />
+      </div>
     </div>
   )
 }
