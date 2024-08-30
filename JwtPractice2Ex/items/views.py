@@ -17,3 +17,9 @@ def getItem(request):
     items = user.items.all()
     serializer = ItemSerializer(items, many=True)
     return Response(serializer.data)
+
+
+@api_view(['POST'])
+def createItem(request):
+    
+    

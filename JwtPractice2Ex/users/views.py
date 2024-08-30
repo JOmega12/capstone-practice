@@ -48,6 +48,7 @@ def getRoutes(request):
 def signup(request):
     serializer = UserSerializer(data =request.data)
     if serializer.is_valid():
+        # *you dont need to get the objects, you can use the serializer to create your username and password and have all the requests set in this view
         user = serializer.save()
         # user = User.objects.get(username = request.data['username'])
         # user = User(
