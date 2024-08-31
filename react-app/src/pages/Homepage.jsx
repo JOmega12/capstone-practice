@@ -1,8 +1,9 @@
 // import {useState, useEffect} from 'react'
 // import { useAuth } from '../providers/AuthContext';
-import { useState } from 'react';
+// import { useState } from 'react';
 import { Register } from './RegisterPage';
 import { useItem } from '../providers/ItemContext';
+import { CreateItem } from './CreateItem';
 
 export const Homepage = () => {
 
@@ -49,8 +50,9 @@ export const Homepage = () => {
       <ul>
         {item.map((item, key) => (
           <>
-            <li key={key}>{item.name}</li>
-            <li>{item.body}</li>
+            <h2 key={key}>{item.name}</h2>
+            <li>body: {item.body}</li>
+            <li>created: {item.created}</li>
           </>
         ))}
       </ul>
@@ -59,6 +61,11 @@ export const Homepage = () => {
       <div>
         <h2>Register here</h2>
         <Register />
+      </div>
+
+      <div>
+        <h2>Create Item here</h2>
+        <CreateItem />
       </div>
     </div>
   )

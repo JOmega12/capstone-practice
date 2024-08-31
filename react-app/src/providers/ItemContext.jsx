@@ -45,15 +45,42 @@ export const ItemProvider = ({children}) => {
             setItem(data)
         }
     }
+
+
     useEffect(() => {
       fetchData()
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
+
+    const createItem = async(name, body) => {
+      try {
+        const response = await fetch("http://127.0.0.1:8000/items/api/create", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + String(authToken.access)
+          },
+          body: JSON.stringify({name, body})
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`)
+        }
+        const data = await response.json();
+        await fetchData();
+        return data
+      } catch(e) {
+        console.log(e)
+        return null
+      }
+
+
+    }
     
     return(
         <ItemContext.Provider value={{
-            item, setItem
+            item, setItem, createItem
         }}>
             {children}
         </ItemContext.Provider>
