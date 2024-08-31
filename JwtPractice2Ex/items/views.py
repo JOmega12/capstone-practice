@@ -37,7 +37,6 @@ def createItem(request):
 def updateItem(request, pk):
     try:
         item = Item.objects.get(pk=pk, user= request.user)
-
     except Item.DoesNotExist:
         Response({"error": "Item is not found or no permissions"})
 
@@ -58,4 +57,3 @@ def deleteItem(request, pk):
     
     item.delete()
     return Response({"Message": "Item Deleted Successfully :D"}, status = status.HTTP_204_OK)
-    # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
