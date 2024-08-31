@@ -5,6 +5,7 @@ import {Homepage} from "./pages/Homepage"
 import {LoginPage} from "./pages/LoginPage"
 import {Routes, Route} from 'react-router-dom'
 import { AuthProvider } from "./providers/AuthContext"
+import { ItemProvider } from "./providers/ItemContext"
 
 
 
@@ -14,11 +15,13 @@ function App() {
   return (
     <div>
       <AuthProvider>
-        <Header/>
-        <Routes>
-          <Route path="/" element={<Homepage />}/>
-          <Route path="/login" element={<LoginPage />}/>
-        </Routes>
+        <ItemProvider>
+          <Header/>
+          <Routes>
+            <Route path="/" element={<Homepage />}/>
+            <Route path="/login" element={<LoginPage />}/>
+          </Routes>
+        </ItemProvider>
       </AuthProvider>
     </div>
   )
