@@ -10,7 +10,7 @@ export const ItemContext = createContext(undefined);
 // eslint-disable-next-line react/prop-types
 export const ItemProvider = ({children}) => {
 
-    const {authToken} = useAuth();
+    const {authToken, logoutUser} = useAuth();
 
 
     const [item, setItem] = useState([]);
@@ -28,6 +28,10 @@ export const ItemProvider = ({children}) => {
             if(!response.ok) {
               throw new Error(`HTTP error! status: ${response.status}`)
             }
+            if(response.statusText === 'Unauthorized') {
+              logoutUser()
+            }
+
             const data = await response.json();
             console.log(response, 'resposne in homepage')
             console.log(data, 'items')

@@ -86,7 +86,7 @@ export function AuthProvider({children}) {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({"refresh": authToken.refresh})
+            body: JSON.stringify({"refresh": authToken?.refresh})
         })
         // console.log(response, 'response')
         let data = await response.json()
@@ -99,9 +99,18 @@ export function AuthProvider({children}) {
         } else {
             logoutUser()
         }
+
+        // this check is loading is true
+        if(loading){
+            setLoading(false);
+        }
     }
 
     useEffect(() => {
+        if(loading) {
+            updateToken();
+        }
+
         let fourMinutes = 1000 * 60 * 4
         let interval = setInterval(() => {
             if(authToken) {
@@ -121,7 +130,7 @@ export function AuthProvider({children}) {
             registerUser,
 
         }}>
-            {children}
+            {loading ? null :children}
         </AuthContext.Provider>
     )
 }
