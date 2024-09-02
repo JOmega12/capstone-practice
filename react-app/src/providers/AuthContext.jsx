@@ -16,7 +16,7 @@ export function AuthProvider({children}) {
     const [authToken, setAuthToken]= useState(()=>localStorage.getItem('authToken') ? JSON.parse(localStorage.getItem('authToken')) : null);
     const [user, setUser] = useState(() => localStorage.getItem('authToken') ? jwtDecode(localStorage.getItem('authToken')) : null);
 
-    const [loading, setLoading] = useState("");
+    const [loading, setLoading] = useState(true);
 
 
 
@@ -71,7 +71,7 @@ export function AuthProvider({children}) {
         }
     }
     const logoutUser = () => {
-        console.log('hello')
+        console.log(`You've been logged out`)
         setAuthToken(null)
         setUser(null)
         localStorage.removeItem("authToken")
@@ -80,7 +80,8 @@ export function AuthProvider({children}) {
     }
 
     const updateToken = async() => {
-        const response = await fetch('http://localhost:8000/users/refresh/', {
+        console.log('updateToken!')
+        const response = await fetch('http://localhost:8000/users/token/refresh/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -89,6 +90,7 @@ export function AuthProvider({children}) {
         })
         // console.log(response, 'response')
         let data = await response.json()
+        // console.log(data)
 
         if(response.status === 200) {
             setAuthToken(data)
@@ -100,7 +102,13 @@ export function AuthProvider({children}) {
     }
 
     useEffect(() => {
-
+        let fourMinutes = 1000 * 60 * 4
+        let interval = setInterval(() => {
+            if(authToken) {
+                updateToken()
+            }
+        }, fourMinutes);
+        return () => clearInterval(interval)
     }, [authToken, loading])
     
 
