@@ -1,6 +1,6 @@
 // import React from 'react'
 
-import { createContext, useContext, useState  } from "react";
+import { createContext, useContext, useEffect, useState  } from "react";
 import { jwtDecode } from "jwt-decode";
 
 
@@ -15,6 +15,8 @@ export function AuthProvider({children}) {
     
     const [authToken, setAuthToken]= useState(()=>localStorage.getItem('authToken') ? JSON.parse(localStorage.getItem('authToken')) : null);
     const [user, setUser] = useState(() => localStorage.getItem('authToken') ? jwtDecode(localStorage.getItem('authToken')) : null);
+
+    const [loading, setLoading] = useState("");
 
 
 
@@ -76,6 +78,30 @@ export function AuthProvider({children}) {
         // once logged out it goes back to login 
         // check your coffee code for logout instructions
     }
+
+    const updateToken = async() => {
+        const response = await fetch('http://localhost:8000/users/refresh/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({"refresh": authToken.refresh})
+        })
+        // console.log(response, 'response')
+        let data = await response.json()
+
+        if(response.status === 200) {
+            setAuthToken(data)
+            setUser(jwtDecode(data.access))
+            localStorage.setItem("authToken", JSON.stringify(data))
+        } else {
+            logoutUser()
+        }
+    }
+
+    useEffect(() => {
+
+    }, [authToken, loading])
     
 
     return(
