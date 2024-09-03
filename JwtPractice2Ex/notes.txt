@@ -20,10 +20,6 @@ Write the second app for items that GET the item using the jwt token
 Then expand from here
 
 
-What I am finding: 
-I cannot get the token for users endpoint.
-
-
 curl \
 >>   -X POST \
 >>   -H "Content-Type: application/json" \
