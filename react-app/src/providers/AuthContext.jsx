@@ -130,7 +130,7 @@ export function AuthProvider({children}) {
             registerUser,
 
         }}>
-            {loading ? null :children}
+            {loading ? null : children}
         </AuthContext.Provider>
     )
 }
