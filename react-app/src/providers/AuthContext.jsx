@@ -4,10 +4,7 @@ import { createContext, useContext, useEffect, useState  } from "react";
 import { jwtDecode } from "jwt-decode";
 
 
-// !TAKE A LOOK AT ACCESS AND REFRESH TOKENS AND ADD THAT TO NEW BUILD 
 // I BUILT THIS TO GET THE CONCEPT ON HOW TOKENS WORK AND HOW TO LOGIN FROM THE BACKEND
-// TODO: NEED TO LEARN HOW TO REGISTER USER AND CREATE NEW ITEMS
-
 export const AuthContext = createContext(undefined);
 
 // eslint-disable-next-line react/prop-types
